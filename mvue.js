@@ -18,10 +18,15 @@ class MVue {
 
   defineReactive($data, key, value) {
     this.observe(value);
+
+    const dep = new Dep();
+
     Object.defineProperty($data, key, {
       enumerable: true,
       configurable: true,
       get() {
+        dep.target && dep.addWatcher(dep.target);
+
         return value;
       },
       set(newValue) {
@@ -29,7 +34,7 @@ class MVue {
           return;
         }
         value = newValue;
-        console.log('数据变化，发出通知');
+        dep.notify();
       }
     })
   }
