@@ -9,20 +9,20 @@
     <h1>Hello,<span id="name"></span></h1>
   </div>
 
+  <script src="./mvue.js"></script>
   <script>
-    let obj = {}
-    Object.defineProperty(obj, 'name', {
-      get:function(){
-        return document.getElementById('name').innerHTML;
-      },
-      set:function(value){
-        document.getElementById('name').innerHTML = value;
+    let mvue = new MVue({
+      data:{
+        test: 'hello',
+        foo:{
+          bar: 'bar'
+        }
       }
-      
     });
-    console.log(obj.name + '--');
-    obj.name = 'World';
-    console.log(obj.name);
+
+    console.log(mvue.$data.test);
+    mvue.$data.test = 'world';
+    console.log(mvue.$data.test);
   </script>
 </body>
 </html>
