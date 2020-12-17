@@ -17,6 +17,7 @@ class MVue {
   }
 
   defineReactive($data, key, value) {
+    this.observe(value);
     Object.defineProperty($data, key, {
       enumerable: true,
       configurable: true,
