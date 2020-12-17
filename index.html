@@ -1,0 +1,28 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app">
+    <h1>Hello,<span id="name"></span></h1>
+  </div>
+
+  <script>
+    let obj = {}
+    Object.defineProperty(obj, 'name', {
+      get:function(){
+        return document.getElementById('name').innerHTML;
+      },
+      set:function(value){
+        document.getElementById('name').innerHTML = value;
+      }
+      
+    });
+    console.log(obj.name + '--');
+    obj.name = 'World';
+    console.log(obj.name);
+  </script>
+</body>
+</html>
