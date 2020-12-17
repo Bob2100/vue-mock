@@ -34,3 +34,33 @@ class MVue {
     })
   }
 }
+
+// 依赖管理器
+class Dep {
+
+  watchers;
+
+  constructor() {
+    this.watchers = [];
+  }
+
+  addWatcher(watcher) {
+    this.watchers.push(watcher);
+  }
+
+  notify() {
+    this.watchers.forEach(watcher => {
+      watcher.update();
+    });
+  }
+}
+
+class Watcher {
+  constructor() {
+    Dep.target = this;
+  }
+
+  update() {
+    console.log('更新视图');
+  }
+}
