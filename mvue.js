@@ -1,10 +1,15 @@
 class MVue {
 
   $data;
+  $options;
+  $compile;
 
   constructor(options) {
     this.$data = options.data;
+    this.$options = options;
     this.observe(this.$data);
+
+    this.$compile = new Compile(options.el, this);
   }
 
   observe($data) {
@@ -13,6 +18,18 @@ class MVue {
     }
     Object.keys($data).forEach(key => {
       this.defineReactive($data, key, $data[key]);
+      this.proxyData(key);
+    });
+  }
+
+  proxyData(key) {
+    Object.defineProperty(this, key, {
+      get() {
+        return this.$data[key];
+      },
+      set(newValue) {
+        this.$data[key] = newValue;
+      }
     });
   }
 
@@ -25,7 +42,7 @@ class MVue {
       enumerable: true,
       configurable: true,
       get() {
-        dep.target && dep.addWatcher(dep.target);
+        Dep.target && dep.addWatcher(Dep.target);
 
         return value;
       },
@@ -61,11 +78,17 @@ class Dep {
 }
 
 class Watcher {
-  constructor() {
+  constructor(vm, key, callback) {
+    this.vm = vm;
+    this.key = key;
+    this.callback = callback;
+
     Dep.target = this;
+    this.vm[key];
+    Dep.target = null;
   }
 
   update() {
-    console.log('更新视图');
+    this.callback.call(this.vm, this.vm[this.key]);
   }
 }

@@ -6,28 +6,35 @@
 </head>
 <body>
   <div id="app">
-    <h1>Hello,<span id="name"></span></h1>
+    <div>
+      {{test}}
+    </div>
+    <button @click="onClick">click</button>
+    <p m-text="test"></p>
+    <p m-html="html"></p>
+    <div>
+      <input type="text" m-model="test">
+    </div>
   </div>
 
   <script src="./mvue.js"></script>
+  <script src="./compile.js"></script>
   <script>
     let mvue = new MVue({
+      el:'#app',
       data:{
-        test: 'hello',
+        test: 'hello text',
+        html: '<h3>hello html<h3>',
         foo:{
           bar: 'bar'
         }
+      },
+      method:{
+        onClick(){
+          alert('clicked!');
+        }
       }
     });
-
-    console.log(mvue.$data.test);
-    mvue.$data.test = 'world';
-    console.log(mvue.$data.test);
-
-    console.log(mvue.$data.foo.bar);
-    mvue.$data.foo.bar = 'new bar';
-    console.log(mvue.$data.foo.bar);
-
   </script>
 </body>
 </html>
